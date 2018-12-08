@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="brightness">
+    <file>BRIGHT.png</file>
+  </qresource>
+  <qresource prefix="contrast">
+    <file>CONTRAST.png</file>
+  </qresource>
+</RCC>
