@@ -39,6 +39,9 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по резкости
         self.reskost.clicked.connect(self.sharpe)
 
+        # Настройки для кнопки по резкости
+        self.colorbalance.clicked.connect(self.colorbalancing)
+
         self.path = ""
         self.pathsave = ""
 
@@ -58,6 +61,7 @@ class MyWidget(QMainWindow):
                 self.bright.setEnabled(True)
                 self.contrast.setEnabled(True)
                 self.reskost.setEnabled(True)
+                self.colorbalance.setEnabled(True)
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -151,6 +155,27 @@ class MyWidget(QMainWindow):
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
+    def colorbalancing(self):
+        self.param1label.setText("Цветобаланс: 50%")
+        self.param1.setEnabled(True)
+        self.param1.setSliderPosition(50)  # базовое значение яркости
+
+        self.everything23()
+
+        # когда ползунок дергается, то происходит вызов функции для изменения яркости
+        self.param1.valueChanged.connect(self.docolorbalance)
+
+    def docolorbalance(self):
+        self.param1label.setText("Цветобаланс: " + str(self.param1.value()) + "%")
+        source = Image.open(self.path)  # открываю
+        source = numpy.array(source)  # для подстраховки
+        source = Image.fromarray(source)  # для подстраховки
+        enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
+        source = enhancer.enhance(float(float(self.param1.value()) / 25))  # значение баланса
+        source.save("working_sheet.png")  # спаси-сохрани!
+        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
         self.param2label.setText("-")
@@ -201,6 +226,7 @@ class MyWidget(QMainWindow):
         self.reskost.setEnabled(False)
         self.bright.setEnabled(False)
         self.contrast.setEnabled(False)
+        self.colorbalance.setEnabled(False)
 
         self.path = ""
         self.pathsave = ""

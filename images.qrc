@@ -2,6 +2,9 @@
   <qresource prefix="brightness">
     <file>BRIGHT.png</file>
   </qresource>
+  <qresource prefix="colorbalance">
+    <file>COLORBALANCE.png</file>
+  </qresource>
   <qresource prefix="sharpe">
     <file>SHARPE.png</file>
   </qresource>
