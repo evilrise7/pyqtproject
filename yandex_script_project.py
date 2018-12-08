@@ -1,16 +1,21 @@
 import sys
 from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
-from PIL import Image
+from PIL import Image, ImageEnhance
 import numpy
+import os
+
 
 class MyWidget(QMainWindow):
+
     def __init__(self):
         super().__init__()
         uic.loadUi('yandex.ui', self)
         self.initUi()
 
     def initUi(self):
+        # для чернового листа
+        self.flag = False
         # сброс настроек
         self.everything()
 
@@ -49,28 +54,62 @@ class MyWidget(QMainWindow):
     def saveimage(self):
         # функция для сохранения изображения
         self.pathsave = self.boxsave.text()
-        source = Image.open(self.path)
-        source = numpy.array(source)
-        source = Image.fromarray(source)
-        source.save(self.pathsave)
+        if self.flag:
+            source = Image.open("working_sheet.png")
+            source = numpy.array(source)
+            source = Image.fromarray(source)
+            source.save(self.pathsave)
+            os.remove("working_sheet.png")
+        else:
+            source = Image.open(self.path)
+            source = numpy.array(source)
+            source = Image.fromarray(source)
+            source.save(self.pathsave)
 
         self.everything()
 
     def brightness(self):
         # функция для изменения яркости изображения
-        self.param1label.setText("Яркость...")
+        self.param1label.setText("Яркость: 50%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)
 
         self.everything23()
+
+        # функционал программы
+        self.param1.valueChanged.connect(self.brightnessediting)
+
+    def brightnessediting(self):
+        self.param1label.setText("Яркость: " + str(self.param1.value()) + "%")
+        source = Image.open(self.path)
+        source = numpy.array(source)
+        source = Image.fromarray(source)
+        enhancer = ImageEnhance.Brightness(source)
+        source = enhancer.enhance(float(float(self.param1.value()) / 10))
+        source.save("working_sheet.png")
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def contrasting(self):
         # функция для изменения яркости изображения
-        self.param1label.setText("Контрастность...")
+        self.param1label.setText("Контрастность: 50%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)
 
         self.everything23()
+
+        self.param1.valueChanged.connect(self.contrastingediting)
+
+    def contrastingediting(self):
+        self.param1label.setText("Контрастность: " + str(self.param1.value()) + "%")
+        source = Image.open(self.path)
+        source = numpy.array(source)
+        source = Image.fromarray(source)
+        enhancer = ImageEnhance.Contrast(source)
+        source = enhancer.enhance(float(float(self.param1.value()) / 10))
+        source.save("working_sheet.png")
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
@@ -104,15 +143,12 @@ class MyWidget(QMainWindow):
 
     def everything(self):
         # функция для полного сброса настроек
-        self.param2label.setText("-")
         self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
 
-        self.param3label.setText("-")
         self.param3.setSliderPosition(0)
         self.param3.setEnabled(False)
 
-        self.param1label.setText("-")
         self.param1.setSliderPosition(0)
         self.param1.setEnabled(False)
 
@@ -129,6 +165,12 @@ class MyWidget(QMainWindow):
         self.boxsave.setText("")
 
         self.kartinka.setPixmap(QtGui.QPixmap(self.path))
+
+        self.flag = False
+
+        self.param1label.setText("-")
+        self.param2label.setText("-")
+        self.param3label.setText("-")
 
 
 app = QApplication(sys.argv)
