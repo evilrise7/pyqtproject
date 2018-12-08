@@ -11,6 +11,7 @@ class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('yandex.ui', self)
+        app.setStyleSheet('QMainWindow{background-color: #000000;}')
         self.initUi()
 
     def initUi(self):
@@ -18,6 +19,12 @@ class MyWidget(QMainWindow):
         self.flag = False
         # сброс настроек
         self.everything()
+
+        # цвет буковок
+        self.kartinka.setStyleSheet("color: white;")
+        self.param1label.setStyleSheet("color: white;")
+        self.param2label.setStyleSheet("color: white;")
+        self.param3label.setStyleSheet("color: white;")
 
         # Настройки окон открытия и сохранения
         self.openbut.clicked.connect(self.openimage)
@@ -29,6 +36,9 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по контрастности
         self.contrast.clicked.connect(self.contrasting)
 
+        # Настройки для кнопки по резкости
+        self.reskost.clicked.connect(self.sharpe)
+
         self.path = ""
         self.pathsave = ""
 
@@ -38,8 +48,17 @@ class MyWidget(QMainWindow):
         try:
             self.path = str(self.boxopen.text())
             if self.path == "":
+                # отключение кнопок
+                self.everything()
+                raise FileNotFoundError
+            elif os.path.isfile(str(self.path)) is False:
                 raise FileNotFoundError
             else:
+                # включение кнопок
+                self.bright.setEnabled(True)
+                self.contrast.setEnabled(True)
+                self.reskost.setEnabled(True)
+
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
                 self.boxopen.setText("")
@@ -111,6 +130,27 @@ class MyWidget(QMainWindow):
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
+    def sharpe(self):
+        self.param1label.setText("Резкость: 50%")
+        self.param1.setEnabled(True)
+        self.param1.setSliderPosition(50)  # базовое значение яркости
+
+        self.everything23()
+
+        # когда ползунок дергается, то происходит вызов функции для изменения яркости
+        self.param1.valueChanged.connect(self.sharpemaking)
+
+    def sharpemaking(self):
+        self.param1label.setText("Резкость: " + str(self.param1.value()) + "%")
+        source = Image.open(self.path)  # открываю
+        source = numpy.array(source)  # для подстраховки
+        source = Image.fromarray(source)  # для подстраховки
+        enhancer = ImageEnhance.Sharpness(source)  # модуль изменения резкости
+        source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение резкости
+        source.save("working_sheet.png")  # спаси-сохрани!
+        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
         self.param2label.setText("-")
@@ -157,6 +197,10 @@ class MyWidget(QMainWindow):
 
         self.openbut.setEnabled(True)
         self.boxopen.setEnabled(True)
+
+        self.reskost.setEnabled(False)
+        self.bright.setEnabled(False)
+        self.contrast.setEnabled(False)
 
         self.path = ""
         self.pathsave = ""
