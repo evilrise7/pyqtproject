@@ -55,16 +55,16 @@ class MyWidget(QMainWindow):
         # функция для сохранения изображения
         self.pathsave = self.boxsave.text()
         if self.flag:
-            source = Image.open("working_sheet.png")
-            source = numpy.array(source)
-            source = Image.fromarray(source)
-            source.save(self.pathsave)
+            source = Image.open("working_sheet.png")  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            source.save(self.pathsave)  # спаси-сохрани!
             os.remove("working_sheet.png")
         else:
-            source = Image.open(self.path)
-            source = numpy.array(source)
-            source = Image.fromarray(source)
-            source.save(self.pathsave)
+            source = Image.open(self.path)  #открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            source.save(self.pathsave)  # спаси-сохрани!
 
         self.everything()
 
@@ -72,44 +72,44 @@ class MyWidget(QMainWindow):
         # функция для изменения яркости изображения
         self.param1label.setText("Яркость: 50%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)
+        self.param1.setSliderPosition(50)  # базовое значение яркости
 
         self.everything23()
 
-        # функционал программы
+        # когда ползунок дергается, то происходит вызов функции для изменения яркости
         self.param1.valueChanged.connect(self.brightnessediting)
 
     def brightnessediting(self):
         self.param1label.setText("Яркость: " + str(self.param1.value()) + "%")
         source = Image.open(self.path)
-        source = numpy.array(source)
-        source = Image.fromarray(source)
-        enhancer = ImageEnhance.Brightness(source)
-        source = enhancer.enhance(float(float(self.param1.value()) / 10))
-        source.save("working_sheet.png")
-        self.flag = True
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        source = numpy.array(source)  # для подстраховки
+        source = Image.fromarray(source)  # для подстраховки
+        enhancer = ImageEnhance.Brightness(source)  # модуль изменения яркости
+        source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение яркости
+        source.save("working_sheet.png")  # спаси-сохрани!
+        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
     def contrasting(self):
-        # функция для изменения яркости изображения
+        # функция для изменения контраста изображения
         self.param1label.setText("Контрастность: 50%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)
+        self.param1.setSliderPosition(50)  # базовое значение контраста
 
         self.everything23()
-
+        # когда ползунок дергается, то происходит вызов функции для изменения контраста
         self.param1.valueChanged.connect(self.contrastingediting)
 
     def contrastingediting(self):
         self.param1label.setText("Контрастность: " + str(self.param1.value()) + "%")
-        source = Image.open(self.path)
-        source = numpy.array(source)
-        source = Image.fromarray(source)
-        enhancer = ImageEnhance.Contrast(source)
-        source = enhancer.enhance(float(float(self.param1.value()) / 10))
-        source.save("working_sheet.png")
-        self.flag = True
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        source = Image.open(self.path)  # открываю
+        source = numpy.array(source)  # для подстраховки
+        source = Image.fromarray(source)  # для подстраховки
+        enhancer = ImageEnhance.Contrast(source)  # модуль изменения контраста
+        source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+        source.save("working_sheet.png")  # спаси-сохрани!
+        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
