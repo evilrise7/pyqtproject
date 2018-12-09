@@ -374,6 +374,9 @@ class MyWidget(QMainWindow):
         self.savebut.setVisible(False)
         self.resetbut.setVisible(False)
 
+        self.savebut.setStyleSheet("border-image: url(./YES_OFF.png);")
+        self.resetbut.setStyleSheet("border-image: url(./NO_OFF.png);")
+
         self.savelabel.setVisible(False)
 
         self.openbut.setEnabled(True)
@@ -421,6 +424,9 @@ class MyWidget(QMainWindow):
         self.savebut.setVisible(True)
         self.resetbut.setVisible(True)
 
+        self.savebut.setStyleSheet("border-image: url(./YES.png);")
+        self.resetbut.setStyleSheet("border-image: url(./NO.png);")
+
     def resetimage(self):
         # Делаю кнопки рабочими
         self.bright.setEnabled(True)
@@ -450,6 +456,10 @@ class MyWidget(QMainWindow):
 
         self.savebut.setEnabled(False)
         self.resetbut.setEnabled(False)
+
+        self.savebut.setStyleSheet("border-image: url(./YES_OFF.png);")
+        self.resetbut.setStyleSheet("border-image: url(./NO_OFF.png);")
+
         self.savelabel.setVisible(True)
 
         self.openbut.setEnabled(True)

@@ -128,8 +128,11 @@
       <pointsize>14</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(./OPENBUT.png);</string>
+    </property>
     <property name="text">
-     <string>Открыть</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="savebut">
