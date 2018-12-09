@@ -26,6 +26,7 @@ class MyWidget(QMainWindow):
         self.param1label.setStyleSheet("color: white;")
         self.param2label.setStyleSheet("color: white;")
         self.param3label.setStyleSheet("color: white;")
+        self.savelabel.setStyleSheet("color: white;")
 
         self.param1label.setEnabled(True)
         self.param2label.setEnabled(True)
@@ -34,6 +35,7 @@ class MyWidget(QMainWindow):
         # Настройки окон открытия и сохранения
         self.openbut.clicked.connect(self.openimage)
         self.savebut.clicked.connect(self.saveimage)
+        self.resetbut.clicked.connect(self.resetimage)
 
         # Настройки для кнопки по яркости.
         self.bright.clicked.connect(self.brightness)
@@ -53,8 +55,15 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по резкости
         self.poster.clicked.connect(self.posterize)
 
+        # Чтобы кнопки могли быть зажаты
+        self.bright.setCheckable(True)
+        self.poster.setCheckable(True)
+        self.gaussblur.setCheckable(True)
+        self.colorbalance.setCheckable(True)
+        self.contrast.setCheckable(True)
+        self.reskost.setCheckable(True)
+
         self.path = ""
-        self.pathsave = ""
 
     def openimage(self):
         # функция для того, чтобы открыть изображение
@@ -79,9 +88,11 @@ class MyWidget(QMainWindow):
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
                 self.boxopen.setText("")
-
                 self.savebut.setEnabled(True)
-                self.boxsave.setEnabled(True)
+                self.resetbut.setEnabled(True)
+
+                self.openbut.setEnabled(False)
+                self.boxopen.setEnabled(False)
         except FileNotFoundError:
             self.kartinka.setText("Изображение не найдено!")
 
@@ -89,24 +100,28 @@ class MyWidget(QMainWindow):
 
     def saveimage(self):
         # функция для сохранения изображения
-        self.pathsave = self.boxsave.text()
         if self.flag:
             source = Image.open("working_sheet.png")  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            source.save(self.pathsave)  # спаси-сохрани!
+            source.save(self.path)  # спаси-сохрани!
             os.remove("working_sheet.png")
         else:
-            source = Image.open(self.path)  #открываю
+            source = Image.open(self.path)  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            source.save(self.pathsave)  # спаси-сохрани!
+            source.save(self.path)  # спаси-сохрани!
 
-        self.everything()
+        self.resetimage()
 
     def brightness(self):
         self.everything23()
         # функция для изменения яркости изображения
+
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.bright.setVisible(True)
+
         self.param1label.setText("Яркость: 50%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)  # базовое значение яркости
@@ -128,6 +143,11 @@ class MyWidget(QMainWindow):
     def contrasting(self):
         # функция для изменения контраста изображения
         self.everything23()
+
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.contrast.setVisible(True)
+
         self.param1label.setText("Контрастность: 50%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)  # базовое значение контраста
@@ -149,6 +169,10 @@ class MyWidget(QMainWindow):
 
     def sharpe(self):
         self.everything23()
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.reskost.setVisible(True)
+
         self.param1label.setText("Резкость: 50%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)  # базовое значение яркости
@@ -170,6 +194,10 @@ class MyWidget(QMainWindow):
 
     def colorbalancing(self):
         self.everything23()
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.colorbalance.setVisible(True)
+
         self.param1label.setText("Цветобаланс: 50%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)  # базовое значение яркости
@@ -191,6 +219,10 @@ class MyWidget(QMainWindow):
 
     def gaussbluring(self):
         self.everything23()
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.gaussblur.setVisible(True)
+
         self.param1label.setText("Гауссовое Размытие: 0%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(0)  # базовое значение размытия
@@ -209,6 +241,10 @@ class MyWidget(QMainWindow):
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
     def posterize(self):
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.poster.setVisible(True)
+
         self.param1label.setText("Red: -%")
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(64)  # базовое значение red
@@ -310,6 +346,7 @@ class MyWidget(QMainWindow):
 
     def everything(self):
         # функция для полного сброса настроек
+        # Обнуляю ползунки
         self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
 
@@ -320,7 +357,7 @@ class MyWidget(QMainWindow):
         self.param1.setEnabled(False)
 
         self.savebut.setEnabled(False)
-        self.boxsave.setEnabled(False)
+        self.resetbut.setEnabled(False)
 
         self.openbut.setEnabled(True)
         self.boxopen.setEnabled(True)
@@ -333,10 +370,10 @@ class MyWidget(QMainWindow):
         self.poster.setEnabled(False)
 
         self.path = ""
-        self.pathsave = ""
 
         self.boxopen.setText("")
-        self.boxsave.setText("")
+        self.openbut.setEnabled(True)
+        self.boxopen.setEnabled(True)
 
         self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -345,6 +382,66 @@ class MyWidget(QMainWindow):
         self.param1label.setText("-")
         self.param2label.setText("-")
         self.param3label.setText("-")
+
+    def resetbuttons(self):
+        self.bright.setEnabled(False)
+        self.contrast.setEnabled(False)
+        self.poster.setEnabled(False)
+        self.gaussblur.setEnabled(False)
+        self.colorbalance.setEnabled(False)
+        self.reskost.setEnabled(False)
+
+        self.bright.setVisible(False)
+        self.contrast.setVisible(False)
+        self.poster.setVisible(False)
+        self.gaussblur.setVisible(False)
+        self.colorbalance.setVisible(False)
+        self.reskost.setVisible(False)
+
+    def resetimage(self):
+        # Делаю кнопки рабочими
+        self.bright.setEnabled(True)
+        self.contrast.setEnabled(True)
+        self.poster.setEnabled(True)
+        self.gaussblur.setEnabled(True)
+        self.colorbalance.setEnabled(True)
+        self.reskost.setEnabled(True)
+
+        # Делаю кнопки видимыми
+        self.bright.setVisible(True)
+        self.contrast.setVisible(True)
+        self.poster.setVisible(True)
+        self.gaussblur.setVisible(True)
+        self.colorbalance.setVisible(True)
+        self.reskost.setVisible(True)
+
+        # Обнуляю ползунки
+        self.param2.setSliderPosition(0)
+        self.param2.setEnabled(False)
+
+        self.param3.setSliderPosition(0)
+        self.param3.setEnabled(False)
+
+        self.param1.setSliderPosition(0)
+        self.param1.setEnabled(False)
+
+        self.savebut.setEnabled(False)
+        self.resetbut.setEnabled(False)
+
+        self.openbut.setEnabled(True)
+        self.boxopen.setEnabled(True)
+
+        self.flag = False
+
+        self.param1label.setText("-")
+        self.param2label.setText("-")
+        self.param3label.setText("-")
+
+        self.boxopen.setText("")
+        self.openbut.setEnabled(True)
+        self.boxopen.setEnabled(True)
+
+        self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
 
 app = QApplication(sys.argv)
