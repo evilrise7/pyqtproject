@@ -135,10 +135,10 @@
    <widget class="QPushButton" name="savebut">
     <property name="geometry">
      <rect>
-      <x>1070</x>
-      <y>620</y>
-      <width>71</width>
-      <height>41</height>
+      <x>1090</x>
+      <y>600</y>
+      <width>72</width>
+      <height>64</height>
      </rect>
     </property>
     <property name="font">
@@ -147,8 +147,11 @@
       <pointsize>14</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(./YES.png);</string>
+    </property>
     <property name="text">
-     <string>Да</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="kartinka">
@@ -185,7 +188,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>90</y>
+      <y>10</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -207,7 +210,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>150</y>
+      <y>70</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -247,7 +250,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>210</y>
+      <y>130</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -272,7 +275,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>270</y>
+      <y>190</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -297,7 +300,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>330</y>
+      <y>250</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -322,7 +325,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>390</y>
+      <y>310</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -346,8 +349,8 @@
    <widget class="QLabel" name="savelabel">
     <property name="geometry">
      <rect>
-      <x>1050</x>
-      <y>580</y>
+      <x>1070</x>
+      <y>560</y>
       <width>201</width>
       <height>31</height>
      </rect>
@@ -367,10 +370,10 @@
    <widget class="QPushButton" name="resetbut">
     <property name="geometry">
      <rect>
-      <x>1150</x>
-      <y>620</y>
-      <width>71</width>
-      <height>41</height>
+      <x>1170</x>
+      <y>600</y>
+      <width>72</width>
+      <height>64</height>
      </rect>
     </property>
     <property name="font">
@@ -379,8 +382,11 @@
       <pointsize>14</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(./NO.png);</string>
+    </property>
     <property name="text">
-     <string>Нет</string>
+     <string/>
     </property>
    </widget>
   </widget>

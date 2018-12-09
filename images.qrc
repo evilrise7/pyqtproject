@@ -2,6 +2,12 @@
   <qresource prefix="brightness">
     <file>BRIGHT.png</file>
   </qresource>
+  <qresource prefix="yesbut">
+    <file>YES.png</file>
+  </qresource>
+  <qresource prefix="nobut">
+    <file>NO.png</file>
+  </qresource>
   <qresource prefix="poster">
     <file>POSTER.png</file>
   </qresource>

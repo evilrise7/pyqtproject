@@ -11,7 +11,7 @@ class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('yandex.ui', self)
-        app.setStyleSheet('QMainWindow{background-color: #000000;}')
+        app.setStyleSheet('QMainWindow{background-color: #161616;}')
         self.initUi()
 
     def initUi(self):
@@ -21,12 +21,13 @@ class MyWidget(QMainWindow):
         # сброс настроек
         self.everything()
 
-        # цвет буковок
+        # цвет буковок там прикольчики
         self.kartinka.setStyleSheet("color: white;")
         self.param1label.setStyleSheet("color: white;")
         self.param2label.setStyleSheet("color: white;")
         self.param3label.setStyleSheet("color: white;")
         self.savelabel.setStyleSheet("color: white;")
+        self.boxopen.setStyleSheet("background: #161616; border: 3px solid white; color: white;")
 
         self.param1label.setEnabled(True)
         self.param2label.setEnabled(True)
@@ -90,6 +91,10 @@ class MyWidget(QMainWindow):
                 self.boxopen.setText("")
                 self.savebut.setEnabled(True)
                 self.resetbut.setEnabled(True)
+
+                self.savebut.setVisible(True)
+                self.resetbut.setVisible(True)
+                self.savelabel.setVisible(True)
 
                 self.openbut.setEnabled(False)
                 self.boxopen.setEnabled(False)
@@ -254,8 +259,6 @@ class MyWidget(QMainWindow):
         self.param3label.setText("Blue: -%")
         self.param3.setEnabled(True)
         self.param3.setSliderPosition(64)  # базовое значение blue
-        QApplication.processEvents()
-
 
         # когда ползунок дергается, то происходит вызов функции для изменения каналов
         self.param1.valueChanged.connect(self.doposterizered)
@@ -359,6 +362,11 @@ class MyWidget(QMainWindow):
         self.savebut.setEnabled(False)
         self.resetbut.setEnabled(False)
 
+        self.savebut.setVisible(False)
+        self.resetbut.setVisible(False)
+
+        self.savelabel.setVisible(False)
+
         self.openbut.setEnabled(True)
         self.boxopen.setEnabled(True)
 
@@ -398,6 +406,12 @@ class MyWidget(QMainWindow):
         self.colorbalance.setVisible(False)
         self.reskost.setVisible(False)
 
+        self.savebut.setEnabled(True)
+        self.resetbut.setEnabled(True)
+
+        self.savebut.setVisible(True)
+        self.resetbut.setVisible(True)
+
     def resetimage(self):
         # Делаю кнопки рабочими
         self.bright.setEnabled(True)
@@ -427,6 +441,7 @@ class MyWidget(QMainWindow):
 
         self.savebut.setEnabled(False)
         self.resetbut.setEnabled(False)
+        self.savelabel.setVisible(True)
 
         self.openbut.setEnabled(True)
         self.boxopen.setEnabled(True)
@@ -438,8 +453,6 @@ class MyWidget(QMainWindow):
         self.param3label.setText("-")
 
         self.boxopen.setText("")
-        self.openbut.setEnabled(True)
-        self.boxopen.setEnabled(True)
 
         self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
