@@ -421,6 +421,7 @@ class MyWidget(QMainWindow):
         self.colorbalance.setEnabled(False)
         self.gaussblur.setEnabled(False)
         self.poster.setEnabled(False)
+        self.blackwhite.setEnabled(False)
 
         self.path = ""
 
