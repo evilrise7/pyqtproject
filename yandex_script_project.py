@@ -57,6 +57,9 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по резкости
         self.poster.clicked.connect(self.posterize)
 
+        # Фильтры: Ч/Б, Сепия
+        self.blackwhite.clicked.connect(self.blackwhitefunc)
+
         # Чтобы кнопки могли быть зажаты
         self.bright.setCheckable(True)
         self.poster.setCheckable(True)
@@ -64,6 +67,7 @@ class MyWidget(QMainWindow):
         self.colorbalance.setCheckable(True)
         self.contrast.setCheckable(True)
         self.reskost.setCheckable(True)
+        self.blackwhite.setCheckable(True)
 
         self.path = ""
 
@@ -86,6 +90,7 @@ class MyWidget(QMainWindow):
                 self.colorbalance.setEnabled(True)
                 self.gaussblur.setEnabled(True)
                 self.poster.setEnabled(True)
+                self.blackwhite.setEnabled(True)
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -326,6 +331,34 @@ class MyWidget(QMainWindow):
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
+    def blackwhitefunc(self):
+        self.everything123()
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.resetbuttons()
+        self.blackwhite.setVisible(True)
+
+        source = Image.open(self.path)  # открываю
+        source = numpy.array(source)  # для подстраховки
+        source = Image.fromarray(source)  # для подстраховки
+        enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
+        source = enhancer.enhance(0.0)  # значение баланса
+        source.save("working_sheet.png")  # спаси-сохрани!
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+
+    def everything123(self):
+        self.param2label.setText("-")
+        self.param2.setSliderPosition(0)
+        self.param2.setEnabled(False)
+
+        self.param3label.setText("-")
+        self.param3.setSliderPosition(0)
+        self.param3.setEnabled(False)
+
+        self.param1label.setText("-")
+        self.param1.setSliderPosition(0)
+        self.param1.setEnabled(False)
+
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
         self.param2label.setText("-")
@@ -410,6 +443,7 @@ class MyWidget(QMainWindow):
         self.gaussblur.setEnabled(False)
         self.colorbalance.setEnabled(False)
         self.reskost.setEnabled(False)
+        self.blackwhite.setEnabled(False)
 
         self.bright.setVisible(False)
         self.contrast.setVisible(False)
@@ -417,6 +451,7 @@ class MyWidget(QMainWindow):
         self.gaussblur.setVisible(False)
         self.colorbalance.setVisible(False)
         self.reskost.setVisible(False)
+        self.blackwhite.setVisible(False)
 
         self.savebut.setEnabled(True)
         self.resetbut.setEnabled(True)
@@ -435,6 +470,7 @@ class MyWidget(QMainWindow):
         self.gaussblur.setEnabled(True)
         self.colorbalance.setEnabled(True)
         self.reskost.setEnabled(True)
+        self.blackwhite.setEnabled(True)
 
         # Делаю кнопки видимыми
         self.bright.setVisible(True)
@@ -443,6 +479,7 @@ class MyWidget(QMainWindow):
         self.gaussblur.setVisible(True)
         self.colorbalance.setVisible(True)
         self.reskost.setVisible(True)
+        self.blackwhite.setEnabled(True)
 
         # Обнуляю ползунки
         self.param2.setSliderPosition(0)

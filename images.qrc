@@ -2,6 +2,9 @@
   <qresource prefix="brightness">
     <file>BRIGHT.png</file>
   </qresource>
+  <qresource prefix="blackwhite">
+    <file>BLACKWHITE.png</file>
+  </qresource>
   <qresource prefix="openbut">
     <file>OPENBUT.png</file>
   </qresource>
