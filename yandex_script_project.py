@@ -106,19 +106,20 @@ class MyWidget(QMainWindow):
         self.param1.valueChanged.connect(self.brightnessediting)
 
     def brightnessediting(self):
+        self.param1label.setText("Яркость: " + str(self.param1.value()) + "%")
         if self.flag:
             source = Image.open("working_sheet.png")  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            enhancer = ImageEnhance.Brightness(source)  # модуль изменения яркости
-            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+            enhancer = ImageEnhance.Brightness(source)  # модуль изменения контраста
+            source = enhancer.enhance(float(float(self.param1.value()) / 50))  # значение контраста
             source.save("working_sheet.png")  # спаси-сохрани!
         else:
             source = Image.open(self.path)  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            enhancer = ImageEnhance.Brightness(source)  # модуль изменения яркости
-            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+            enhancer = ImageEnhance.Brightness(source)  # модуль изменения контраста
+            source = enhancer.enhance(float(float(self.param1.value()) / 50))  # значение контраста
             source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
