@@ -27,7 +27,8 @@ class MyWidget(QMainWindow):
         self.param2label.setStyleSheet("color: white;")
         self.param3label.setStyleSheet("color: white;")
         self.savelabel.setStyleSheet("color: white;")
-        self.boxopen.setStyleSheet("background: #161616; border: 3px solid white; color: white;")
+        self.boxopen.setStyleSheet(
+            "background: #161616; border: 3px solid white; color: white;")
 
         self.param1label.setEnabled(True)
         self.param2label.setEnabled(True)
@@ -131,7 +132,8 @@ class MyWidget(QMainWindow):
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(50)  # базовое значение яркости
 
-        # когда ползунок дергается, то происходит вызов функции для изменения яркости
+        # когда ползунок дергается, то
+        # происходит вызов функции для изменения яркости
         self.param1.valueChanged.connect(self.brightnessediting)
 
     def brightnessediting(self):
@@ -139,11 +141,12 @@ class MyWidget(QMainWindow):
         source = Image.open(self.path)  # открываю
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
-        enhancer = ImageEnhance.Brightness(source)  # модуль изменения контраста
-        source = enhancer.enhance(float(float(self.param1.value()) / 50))  # значение контраста
+        enhancer = ImageEnhance.Brightness(source)  # модуль контраста
+        source = enhancer.enhance(float(float(self.param1.value()) / 50))
+        # значение контраста
         source.save("working_sheet.png")  # спаси-сохрани!
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def contrasting(self):
         # функция для изменения контраста изображения
@@ -158,19 +161,21 @@ class MyWidget(QMainWindow):
         self.param1.setSliderPosition(50)  # базовое значение контраста
         QApplication.processEvents()
 
-        # когда ползунок дергается, то происходит вызов функции для изменения контраста
+        # когда ползунок дергается, происходит вызов функции контраста
         self.param1.valueChanged.connect(self.contrastingediting)
 
     def contrastingediting(self):
-        self.param1label.setText("Контрастность: " + str(self.param1.value()) + "%")
+        self.param1label.setText("Контрастность: " + str(
+            self.param1.value()) + "%")
         source = Image.open(self.path)  # открываю
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
         enhancer = ImageEnhance.Contrast(source)  # модуль изменения контраста
-        source = enhancer.enhance(float(float(self.param1.value()) / 50))  # значение контраста
+        source = enhancer.enhance(
+            float(float(self.param1.value()) / 50))  # значение контраста
         source.save("working_sheet.png")  # спаси-сохрани!
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def sharpe(self):
         self.everything23()
@@ -183,7 +188,7 @@ class MyWidget(QMainWindow):
         self.param1.setSliderPosition(50)  # базовое значение яркости
         QApplication.processEvents()
 
-        # когда ползунок дергается, то происходит вызов функции для изменения яркости
+        # когда ползунок дергается, то происходит вызов функции яркости
         self.param1.valueChanged.connect(self.sharpemaking)
 
     def sharpemaking(self):
@@ -192,10 +197,10 @@ class MyWidget(QMainWindow):
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
         enhancer = ImageEnhance.Sharpness(source)  # модуль изменения резкости
-        source = enhancer.enhance(float(float(self.param1.value()) / 25))  # значение резкости
+        source = enhancer.enhance(float(float(self.param1.value()) / 25))
         source.save("working_sheet.png")  # спаси-сохрани!
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def colorbalancing(self):
         self.everything23()
@@ -208,19 +213,21 @@ class MyWidget(QMainWindow):
         self.param1.setSliderPosition(50)  # базовое значение яркости
         QApplication.processEvents()
 
-        # когда ползунок дергается, то происходит вызов функции для изменения яркости
+        # когда ползунок дергается, то происходит вызов функции яркости
         self.param1.valueChanged.connect(self.docolorbalance)
 
     def docolorbalance(self):
-        self.param1label.setText("Цветобаланс: " + str(self.param1.value()) + "%")
+        self.param1label.setText(
+            "Цветобаланс: " + str(self.param1.value()) + "%")
         source = Image.open(self.path)  # открываю
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
         enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
-        source = enhancer.enhance(float(float(self.param1.value()) / 30))  # значение баланса
+        source = enhancer.enhance(
+            float(float(self.param1.value()) / 30))  # значение баланса
         source.save("working_sheet.png")  # спаси-сохрани!
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def gaussbluring(self):
         self.everything23()
@@ -232,18 +239,20 @@ class MyWidget(QMainWindow):
         self.param1.setEnabled(True)
         self.param1.setSliderPosition(0)  # базовое значение размытия
 
-        # когда ползунок дергается, то происходит вызов функции для изменения размытия
+        # когда ползунок дергается, то происходит вызов функции размытия
         self.param1.valueChanged.connect(self.dogaussblur)
 
     def dogaussblur(self):
-        self.param1label.setText(" Гауссовое Размытие: " + str(self.param1.value()) + "%")
+        self.param1label.setText(
+            "Гауссовое Размытие: " + str(self.param1.value()) + "%")
         source = Image.open(self.path)  # открываю
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
-        source = source.filter(ImageFilter.GaussianBlur(float(float(self.param1.value()) / 25)))  # значение баланса
+        source = source.filter(
+            ImageFilter.GaussianBlur(float(float(self.param1.value()) / 25)))
         source.save("working_sheet.png")  # спаси-сохрани!
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def posterize(self):
         # Выключаем доступ ко всем кнопкам кроме данной
@@ -260,7 +269,7 @@ class MyWidget(QMainWindow):
         self.param3.setEnabled(True)
         self.param3.setSliderPosition(64)  # базовое значение blue
 
-        # когда ползунок дергается, то происходит вызов функции для изменения каналов
+        # когда ползунок дергается, то происходит вызов функции каналов
         self.param1.valueChanged.connect(self.doposterizered)
         self.param2.valueChanged.connect(self.doposterizegreen)
         self.param3.valueChanged.connect(self.doposterizeblue)
@@ -279,8 +288,8 @@ class MyWidget(QMainWindow):
         source[:, :, 0] = red
         source = Image.fromarray(source)
         source.save("working_sheet.png")
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def doposterizegreen(self):
         green = float(self.param2.value()) * 255 / 1000
@@ -296,8 +305,8 @@ class MyWidget(QMainWindow):
         source2[:, :, 1] = green
         source2 = Image.fromarray(source2)
         source2.save("working_sheet.png")
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def doposterizeblue(self):
         blue = float(self.param3.value()) * 255 / 1000
@@ -314,8 +323,8 @@ class MyWidget(QMainWindow):
         source3 = Image.fromarray(source3)
         source3.save("working_sheet.png")
 
-        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
-        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
