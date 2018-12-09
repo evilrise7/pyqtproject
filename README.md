@@ -26,7 +26,7 @@
 
     ИСПОЛЬЗОВАННЫЕ_ПРИКОЛЬЧИКИ:
     - PyQT5: uic, QtGui, QtWidgets, QApplication, QWidget, QMainWindow
-    - PIL: Image, ImageEnhance, ImageFilter
+    - PIL: Image, ImageEnhance, ImageFilter, ImageDraw
     - numpy
     - os
     - sys
