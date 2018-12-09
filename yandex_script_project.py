@@ -15,6 +15,7 @@ class MyWidget(QMainWindow):
         self.initUi()
 
     def initUi(self):
+        self.setWindowTitle('Фитон')
         # для чернового листа
         self.flag = False
         # сброс настроек
@@ -45,6 +46,9 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по резкости
         self.gaussblur.clicked.connect(self.gaussbluring)
 
+        # Настройки для кнопки по резкости
+        self.poster.clicked.connect(self.posterize)
+
         self.path = ""
         self.pathsave = ""
 
@@ -66,6 +70,7 @@ class MyWidget(QMainWindow):
                 self.reskost.setEnabled(True)
                 self.colorbalance.setEnabled(True)
                 self.gaussblur.setEnabled(True)
+                self.poster.setEnabled(True)
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -241,6 +246,9 @@ class MyWidget(QMainWindow):
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
+    def posterize(self):
+        pass
+
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
         self.param2label.setText("-")
@@ -293,6 +301,7 @@ class MyWidget(QMainWindow):
         self.contrast.setEnabled(False)
         self.colorbalance.setEnabled(False)
         self.gaussblur.setEnabled(False)
+        self.poster.setEnabled(False)
 
         self.path = ""
         self.pathsave = ""
