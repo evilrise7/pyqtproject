@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageFilter
 import numpy
 import os
 
@@ -42,6 +42,9 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по резкости
         self.colorbalance.clicked.connect(self.colorbalancing)
 
+        # Настройки для кнопки по резкости
+        self.gaussblur.clicked.connect(self.gaussbluring)
+
         self.path = ""
         self.pathsave = ""
 
@@ -62,6 +65,7 @@ class MyWidget(QMainWindow):
                 self.contrast.setEnabled(True)
                 self.reskost.setEnabled(True)
                 self.colorbalance.setEnabled(True)
+                self.gaussblur.setEnabled(True)
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -95,21 +99,27 @@ class MyWidget(QMainWindow):
         # функция для изменения яркости изображения
         self.param1label.setText("Яркость: 50%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)  # базовое значение яркости
+        self.param1.setSliderPosition(50)  # базовое значение контраста
 
         self.everything23()
-
         # когда ползунок дергается, то происходит вызов функции для изменения яркости
         self.param1.valueChanged.connect(self.brightnessediting)
 
     def brightnessediting(self):
-        self.param1label.setText("Яркость: " + str(self.param1.value()) + "%")
-        source = Image.open(self.path)
-        source = numpy.array(source)  # для подстраховки
-        source = Image.fromarray(source)  # для подстраховки
-        enhancer = ImageEnhance.Brightness(source)  # модуль изменения яркости
-        source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение яркости
-        source.save("working_sheet.png")  # спаси-сохрани!
+        if self.flag:
+            source = Image.open("working_sheet.png")  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Brightness(source)  # модуль изменения яркости
+            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+            source.save("working_sheet.png")  # спаси-сохрани!
+        else:
+            source = Image.open(self.path)  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Brightness(source)  # модуль изменения яркости
+            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+            source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
@@ -125,12 +135,20 @@ class MyWidget(QMainWindow):
 
     def contrastingediting(self):
         self.param1label.setText("Контрастность: " + str(self.param1.value()) + "%")
-        source = Image.open(self.path)  # открываю
-        source = numpy.array(source)  # для подстраховки
-        source = Image.fromarray(source)  # для подстраховки
-        enhancer = ImageEnhance.Contrast(source)  # модуль изменения контраста
-        source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
-        source.save("working_sheet.png")  # спаси-сохрани!
+        if self.flag:
+            source = Image.open("working_sheet.png")  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Contrast(source)  # модуль изменения контраста
+            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+            source.save("working_sheet.png")  # спаси-сохрани!
+        else:
+            source = Image.open(self.path)  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Contrast(source)  # модуль изменения контраста
+            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение контраста
+            source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
@@ -140,18 +158,25 @@ class MyWidget(QMainWindow):
         self.param1.setSliderPosition(50)  # базовое значение яркости
 
         self.everything23()
-
         # когда ползунок дергается, то происходит вызов функции для изменения яркости
         self.param1.valueChanged.connect(self.sharpemaking)
 
     def sharpemaking(self):
         self.param1label.setText("Резкость: " + str(self.param1.value()) + "%")
-        source = Image.open(self.path)  # открываю
-        source = numpy.array(source)  # для подстраховки
-        source = Image.fromarray(source)  # для подстраховки
-        enhancer = ImageEnhance.Sharpness(source)  # модуль изменения резкости
-        source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение резкости
-        source.save("working_sheet.png")  # спаси-сохрани!
+        if self.flag:
+            source = Image.open("working_sheet.png")  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Sharpness(source)  # модуль изменения резкости
+            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение резкости
+            source.save("working_sheet.png")  # спаси-сохрани!
+        else:
+            source = Image.open(self.path)  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Sharpness(source)  # модуль изменения резкости
+            source = enhancer.enhance(float(float(self.param1.value()) / 10))  # значение резкости
+            source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
@@ -167,12 +192,51 @@ class MyWidget(QMainWindow):
 
     def docolorbalance(self):
         self.param1label.setText("Цветобаланс: " + str(self.param1.value()) + "%")
+        if self.flag:
+            source = Image.open("working_sheet.png")  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
+            source = enhancer.enhance(float(float(self.param1.value()) / 25))  # значение баланса
+            source.save("working_sheet.png")  # спаси-сохрани!
+        else:
+            source = Image.open(self.path)  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
+            source = enhancer.enhance(float(float(self.param1.value()) / 25))  # значение баланса
+            source.save("working_sheet.png")  # спаси-сохрани!
+        self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
+
+    def gaussbluring(self):
+        self.param1label.setText("Гауссовое Размытие: 0%")
+        self.param1.setEnabled(True)
+        self.param1.setSliderPosition(0)  # базовое значение яркости
+
+        self.everything23()
         source = Image.open(self.path)  # открываю
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
-        enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
-        source = enhancer.enhance(float(float(self.param1.value()) / 25))  # значение баланса
+        source = source.filter(ImageFilter.GaussianBlur(0))
         source.save("working_sheet.png")  # спаси-сохрани!
+        # когда ползунок дергается, то происходит вызов функции для изменения яркости
+        self.param1.valueChanged.connect(self.dogaussblur)
+
+    def dogaussblur(self):
+        self.param1label.setText(" Гауссовое Размытие: " + str(self.param1.value()) + "%")
+        if self.flag:
+            source = Image.open("working_sheet.png")  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            source = source.filter(ImageFilter.GaussianBlur(float(float(self.param1.value()) / 25)))  # значение баланса
+            source.save("working_sheet.png")  # спаси-сохрани!
+        else:
+            source = Image.open(self.path)  # открываю
+            source = numpy.array(source)  # для подстраховки
+            source = Image.fromarray(source)  # для подстраховки
+            source = source.filter(ImageFilter.GaussianBlur(float(float(self.param1.value()) / 25)))  # значение баланса
+            source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True  # флаг, чтобы учесть при сохранении, были ли какие-либо изменения в файле.
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))  # отображение
 
@@ -227,6 +291,7 @@ class MyWidget(QMainWindow):
         self.bright.setEnabled(False)
         self.contrast.setEnabled(False)
         self.colorbalance.setEnabled(False)
+        self.gaussblur.setEnabled(False)
 
         self.path = ""
         self.pathsave = ""
