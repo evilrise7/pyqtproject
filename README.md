@@ -20,3 +20,10 @@
     - КОММЕРЦИАЛИЗИРОВАТЬ ДАННОЕ ТВОРЕНИЕ, ЗАРАБОТАТЬ НА НЕМ КУЧУ ДЕНЕГ И УЛЕТЕТЬ НА ПЛУТОН, ЧТОБЫ ПЕРЕИМЕНОВАТЬ ЕГО В ПИТОН.
 
 СТРОК КОДА С УЧЕТОМ ПОЯСНЕНИЙ - 463/600
+
+    ИСПОЛЬЗОВАННЫЕ_ПРИКОЛЬЧИКИ:
+    - PyQT5: uic, QtGui, QtWidgets, QApplication, QWidget, QMainWindow
+    - PIL: Image, ImageEnhance, ImageFilter
+    - numpy
+    - os
+    - sys
