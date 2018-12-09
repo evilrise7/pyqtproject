@@ -2,6 +2,9 @@
   <qresource prefix="brightness">
     <file>BRIGHT.png</file>
   </qresource>
+  <qresource prefix="negative">
+    <file>NEGATIVE.png</file>
+  </qresource>
   <qresource prefix="sepia">
     <file>SEPIA.png</file>
   </qresource>

@@ -27,6 +27,8 @@ class MyWidget(QMainWindow):
         self.param2label.setStyleSheet("color: white;")
         self.param3label.setStyleSheet("color: white;")
         self.savelabel.setStyleSheet("color: white;")
+        self.filenamelabel.setStyleSheet("color: white;")
+        self.filesizelabel.setStyleSheet("color: white;")
         self.boxopen.setStyleSheet(
             "background: #161616; border: 3px solid white; color: white;")
 
@@ -57,9 +59,10 @@ class MyWidget(QMainWindow):
         # Настройки для кнопки по резкости
         self.poster.clicked.connect(self.posterize)
 
-        # Фильтры: Ч/Б, Сепия
+        # Фильтры: Ч/Б, Сепия, Негатив
         self.blackwhite.clicked.connect(self.blackwhitefunc)
         self.sepia.clicked.connect(self.sepiafunc)
+        self.negative.clicked.connect(self.negativize)
 
         # Чтобы кнопки могли быть зажаты
         self.bright.setCheckable(True)
@@ -70,6 +73,7 @@ class MyWidget(QMainWindow):
         self.reskost.setCheckable(True)
         self.blackwhite.setCheckable(True)
         self.sepia.setCheckable(True)
+        self.negative.setCheckable(True)
 
         self.path = ""
 
@@ -94,6 +98,7 @@ class MyWidget(QMainWindow):
                 self.poster.setEnabled(True)
                 self.blackwhite.setEnabled(True)
                 self.sepia.setEnabled(True)
+                self.negative.setEnabled(True)
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -107,9 +112,16 @@ class MyWidget(QMainWindow):
 
                 self.openbut.setEnabled(False)
                 self.boxopen.setEnabled(False)
+                self.filenamelabel.setText(self.path)
+
+                source = Image.open(self.path)
+                width = source.size[0]
+                height = source.size[1]
+                self.filesizelabel.setText("Д: {} ; Ш: {} ;".format(width, height))
         except FileNotFoundError:
             self.kartinka.setText("Изображение не найдено!")
-
+            self.filenamelabel.setText("имя.png")
+            self.filesizelabel.setText("Д: - ; Ш: - ;")
             self.boxopen.setText("")
 
     def saveimage(self):
@@ -387,6 +399,29 @@ class MyWidget(QMainWindow):
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
+    def negativize(self):
+        self.everything123()
+        self.resetbuttons()
+        self.sepia.setVisible(True)
+
+        source = Image.open(self.path)
+        draw = ImageDraw.Draw(source)
+        width = source.size[0]  # ширина.
+        height = source.size[1]  # высота
+        pix = source.load()  # загрузка пикселей
+
+        for i in range(width):
+            for j in range(height):
+                red = pix[i, j][0]
+                green = pix[i, j][1]
+                blue = pix[i, j][2]
+                draw.point((i, j), (255 - red, 255 - green, 255 - blue))
+
+        source.save("working_sheet.png")
+        del draw
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+
     def everything123(self):
         self.param2label.setText("-")
         self.param2.setSliderPosition(0)
@@ -464,6 +499,7 @@ class MyWidget(QMainWindow):
         self.poster.setEnabled(False)
         self.blackwhite.setEnabled(False)
         self.sepia.setEnabled(False)
+        self.negative.setEnabled(False)
 
         self.path = ""
 
@@ -488,6 +524,7 @@ class MyWidget(QMainWindow):
         self.reskost.setEnabled(False)
         self.blackwhite.setEnabled(False)
         self.sepia.setEnabled(False)
+        self.negative.setEnabled(True)
 
         self.bright.setVisible(False)
         self.contrast.setVisible(False)
@@ -497,6 +534,7 @@ class MyWidget(QMainWindow):
         self.reskost.setVisible(False)
         self.blackwhite.setVisible(False)
         self.sepia.setVisible(False)
+        self.negative.setVisible(False)
 
         self.savebut.setEnabled(True)
         self.resetbut.setEnabled(True)
@@ -517,6 +555,7 @@ class MyWidget(QMainWindow):
         self.reskost.setEnabled(True)
         self.blackwhite.setEnabled(True)
         self.sepia.setEnabled(True)
+        self.negative.setEnabled(True)
 
         # Делаю кнопки видимыми
         self.bright.setVisible(True)
@@ -527,6 +566,7 @@ class MyWidget(QMainWindow):
         self.reskost.setVisible(True)
         self.blackwhite.setVisible(True)
         self.sepia.setVisible(True)
+        self.negative.setVisible(True)
 
         # Обнуляю ползунки
         self.param2.setSliderPosition(0)
