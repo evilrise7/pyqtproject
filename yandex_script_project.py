@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
-from PIL import Image, ImageEnhance, ImageFilter
+from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
 import numpy
 import os
 
@@ -59,6 +59,7 @@ class MyWidget(QMainWindow):
 
         # Фильтры: Ч/Б, Сепия
         self.blackwhite.clicked.connect(self.blackwhitefunc)
+        self.sepia.clicked.connect(self.sepiafunc)
 
         # Чтобы кнопки могли быть зажаты
         self.bright.setCheckable(True)
@@ -68,6 +69,7 @@ class MyWidget(QMainWindow):
         self.contrast.setCheckable(True)
         self.reskost.setCheckable(True)
         self.blackwhite.setCheckable(True)
+        self.sepia.setCheckable(True)
 
         self.path = ""
 
@@ -91,6 +93,7 @@ class MyWidget(QMainWindow):
                 self.gaussblur.setEnabled(True)
                 self.poster.setEnabled(True)
                 self.blackwhite.setEnabled(True)
+                self.sepia.setEnabled(True)
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -346,6 +349,44 @@ class MyWidget(QMainWindow):
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
+    def sepiafunc(self):
+        self.everything123()
+        self.resetbuttons()
+        self.sepia.setVisible(True)
+
+        source = Image.open(self.path)
+        draw = ImageDraw.Draw(source)
+        width = source.size[0]  # ширина.
+        height = source.size[1]  # высота.s
+        pix = source.load()
+
+        for i in range(width):
+            for j in range(height):
+                # разбиваем на каналы
+                red = pix[i, j][0]
+                green = pix[i, j][1]
+                blue = pix[i, j][2]
+                # нахожу среднее значение всех пикселей
+                avg = (red + green + blue) // 3
+                red = avg + 10 * 2  # 10 - глубина
+                green = avg + 10  # если: 100 - суперярко; 0 - пещера
+                blue = avg
+
+                # приводим к адекватным показателям(0 - 255)
+                if red > 255:
+                    red = 255
+                if green > 255:
+                    green = 255
+                if blue > 255:
+                    blue = 255
+                # прорисовываем
+                draw.point((i, j), (red, green, blue))
+
+        source.save("working_sheet.png")
+        del draw
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+
     def everything123(self):
         self.param2label.setText("-")
         self.param2.setSliderPosition(0)
@@ -422,6 +463,7 @@ class MyWidget(QMainWindow):
         self.gaussblur.setEnabled(False)
         self.poster.setEnabled(False)
         self.blackwhite.setEnabled(False)
+        self.sepia.setEnabled(False)
 
         self.path = ""
 
@@ -445,6 +487,7 @@ class MyWidget(QMainWindow):
         self.colorbalance.setEnabled(False)
         self.reskost.setEnabled(False)
         self.blackwhite.setEnabled(False)
+        self.sepia.setEnabled(False)
 
         self.bright.setVisible(False)
         self.contrast.setVisible(False)
@@ -453,6 +496,7 @@ class MyWidget(QMainWindow):
         self.colorbalance.setVisible(False)
         self.reskost.setVisible(False)
         self.blackwhite.setVisible(False)
+        self.sepia.setVisible(False)
 
         self.savebut.setEnabled(True)
         self.resetbut.setEnabled(True)
@@ -472,6 +516,7 @@ class MyWidget(QMainWindow):
         self.colorbalance.setEnabled(True)
         self.reskost.setEnabled(True)
         self.blackwhite.setEnabled(True)
+        self.sepia.setEnabled(True)
 
         # Делаю кнопки видимыми
         self.bright.setVisible(True)
@@ -480,7 +525,8 @@ class MyWidget(QMainWindow):
         self.gaussblur.setVisible(True)
         self.colorbalance.setVisible(True)
         self.reskost.setVisible(True)
-        self.blackwhite.setEnabled(True)
+        self.blackwhite.setVisible(True)
+        self.sepia.setVisible(True)
 
         # Обнуляю ползунки
         self.param2.setSliderPosition(0)
