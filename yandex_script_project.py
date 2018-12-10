@@ -29,13 +29,10 @@ class MyWidget(QMainWindow):
         self.savelabel.setStyleSheet("color: white;")
         self.filenamelabel.setStyleSheet("color: white;")
         self.filesizelabel.setStyleSheet("color: white;")
-        self.boxopen.setStyleSheet(
-            "background: #161616; border: 3px solid white; color: white;")
 
         self.param1label.setEnabled(True)
         self.param2label.setEnabled(True)
         self.param3label.setEnabled(True)
-        self.boxopen.setVisible(False)
 
         # Настройки окон открытия и сохранения
         self.openbut.clicked.connect(self.openimage)
@@ -96,7 +93,6 @@ class MyWidget(QMainWindow):
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
-                self.boxopen.setText("")
                 self.savebut.setEnabled(True)
                 self.resetbut.setEnabled(True)
 
@@ -111,10 +107,9 @@ class MyWidget(QMainWindow):
                     width, height))
 
         except FileNotFoundError:
-            self.kartinka.setText("Изображение не найдено!")
+            self.kartinka.setText("Изображение не найдено!\nПопробуйте еще раз.")
             self.filenamelabel.setText("имя.png")
             self.filesizelabel.setText("Д: - ; Ш: - ;")
-            self.boxopen.setText("")
 
     def saveimage(self):
         # функция для сохранения изображения
@@ -454,11 +449,8 @@ class MyWidget(QMainWindow):
         self.savelabel.setVisible(True)
 
         self.openbut.setEnabled(True)
-        self.boxopen.setEnabled(True)
 
         self.flag = False
-
-        self.boxopen.setText("")
 
         self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -566,15 +558,12 @@ class MyWidget(QMainWindow):
         self.savelabel.setVisible(False)
 
         self.openbut.setEnabled(True)
-        self.boxopen.setEnabled(True)
 
         self.allbuttonsFalse()
 
         self.path = ""
 
-        self.boxopen.setText("")
         self.openbut.setEnabled(True)
-        self.boxopen.setEnabled(True)
 
         self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
