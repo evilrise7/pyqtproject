@@ -31,3 +31,4 @@
     - numpy
     - os
     - sys
+Шрифт: https://www.dafont.com/pixeled.font
