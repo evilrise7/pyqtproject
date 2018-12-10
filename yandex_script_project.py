@@ -142,11 +142,11 @@ class MyWidget(QMainWindow):
 
         self.param1label.setText("Яркость: 50%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)  # базовое значение яркости
 
         # когда ползунок дергается, то
         # происходит вызов функции для изменения яркости
         self.param1.valueChanged.connect(self.brightnessediting)
+        self.param1.setSliderPosition(50)  # базовое значение яркости
 
     def brightnessediting(self):
         self.param1label.setText("Яркость: " + str(self.param1.value()) + "%")
@@ -169,12 +169,12 @@ class MyWidget(QMainWindow):
         self.contrast.setVisible(True)
 
         self.param1label.setText("Контрастность: 50%")
+        print(self.param1label.text())
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)  # базовое значение контраста
-        QApplication.processEvents()
 
         # когда ползунок дергается, происходит вызов функции контраста
         self.param1.valueChanged.connect(self.contrastingediting)
+        self.param1.setSliderPosition(50)  # базовое значение контраста
 
     def contrastingediting(self):
         self.param1label.setText("Контрастность: " + str(
@@ -197,11 +197,10 @@ class MyWidget(QMainWindow):
 
         self.param1label.setText("Резкость: 50%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)  # базовое значение яркости
-        QApplication.processEvents()
 
         # когда ползунок дергается, то происходит вызов функции яркости
         self.param1.valueChanged.connect(self.sharpemaking)
+        self.param1.setSliderPosition(50)  # базовое значение яркости
 
     def sharpemaking(self):
         self.param1label.setText("Резкость: " + str(self.param1.value()) + "%")
@@ -222,11 +221,10 @@ class MyWidget(QMainWindow):
 
         self.param1label.setText("Цветобаланс: 50%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(50)  # базовое значение яркости
-        QApplication.processEvents()
 
         # когда ползунок дергается, то происходит вызов функции яркости
         self.param1.valueChanged.connect(self.docolorbalance)
+        self.param1.setSliderPosition(50)  # базовое значение яркости
 
     def docolorbalance(self):
         self.param1label.setText(
@@ -249,10 +247,10 @@ class MyWidget(QMainWindow):
 
         self.param1label.setText("Гауссовое Размытие: 0%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(0)  # базовое значение размытия
 
         # когда ползунок дергается, то происходит вызов функции размытия
         self.param1.valueChanged.connect(self.dogaussblur)
+        self.param1.setSliderPosition(0)  # базовое значение размытия
 
     def dogaussblur(self):
         self.param1label.setText(
@@ -273,18 +271,21 @@ class MyWidget(QMainWindow):
 
         self.param1label.setText("Red: -%")
         self.param1.setEnabled(True)
-        self.param1.setSliderPosition(64)  # базовое значение red
+
         self.param2label.setText("Green: -%")
         self.param2.setEnabled(True)
-        self.param2.setSliderPosition(64)  # базовое значение green
+
         self.param3label.setText("Blue: -%")
         self.param3.setEnabled(True)
-        self.param3.setSliderPosition(64)  # базовое значение blue
 
         # когда ползунок дергается, то происходит вызов функции каналов
         self.param1.valueChanged.connect(self.doposterizered)
         self.param2.valueChanged.connect(self.doposterizegreen)
         self.param3.valueChanged.connect(self.doposterizeblue)
+
+        self.param1.setSliderPosition(64)  # базовое значение red
+        self.param2.setSliderPosition(64)  # базовое значение red
+        self.param3.setSliderPosition(64)  # базовое значение red
 
     def doposterizered(self):
         red = float(self.param1.value()) * 255 / 1000
@@ -505,16 +506,17 @@ class MyWidget(QMainWindow):
     def everything123(self):
         # сброс всех ползунков
         self.param2label.setText("-")
-        self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
 
         self.param3label.setText("-")
-        self.param3.setSliderPosition(0)
         self.param3.setEnabled(False)
 
         self.param1label.setText("-")
-        self.param1.setSliderPosition(0)
         self.param1.setEnabled(False)
+
+        self.param2.setSliderPosition(0)
+        self.param3.setSliderPosition(0)
+        self.param1.setSliderPosition(0)
 
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
