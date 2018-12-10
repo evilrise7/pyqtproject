@@ -111,7 +111,8 @@ class MyWidget(QMainWindow):
                     width, height))
 
         except FileNotFoundError:
-            self.kartinka.setText("Изображение не найдено!\nПопробуйте еще раз.")
+            self.kartinka.setText(
+                "Изображение не найдено!\nПопробуйте еще раз.")
             self.filenamelabel.setText("имя.png")
             self.filesizelabel.setText("Д: - ; Ш: - ;")
 
