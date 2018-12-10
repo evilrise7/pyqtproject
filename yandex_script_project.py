@@ -122,13 +122,16 @@ class MyWidget(QMainWindow):
             source = Image.open("working_sheet.png")  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            source.save("working_sheet.png")  # спаси-сохрани!
+            source.save(self.path)  # спаси-сохрани!
         else:
             source = Image.open(self.path)  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            source.save("working_sheet.png")  # спаси-сохрани!
+            source.save(self.path)  # спаси-сохрани!
         self.resetimage()
+        self.allbuttonTrue()
+        self.everything123()
+
     def brightness(self):
         self.everything23()
         # функция для изменения яркости изображения
@@ -420,10 +423,10 @@ class MyWidget(QMainWindow):
         # Выключаем доступ ко всем кнопкам кроме данной
         self.everything23()
         self.resetbuttons()
+        self.noise.setVisible(True)
 
         self.param1label.setText("Степень щелчка: 0%")
         self.param1.setEnabled(True)
-        self.noise.setVisible(True)
 
         # когда ползунок дергается, то происходит вызов функции размытия
         self.param1.valueChanged.connect(self.donoise)
@@ -432,8 +435,10 @@ class MyWidget(QMainWindow):
 
     def donoise(self):
         self.everything23()
-        self.resetbuttons1()
-        self.noise.setVisible(True)
+
+        self.saveresetlabelVisibleTrue()
+        self.savebut.setStyleSheet("border-image: url(./YES.png);")
+        self.resetbut.setStyleSheet("border-image: url(./NO.png);")
 
         self.param1label.setText(
             "Степень щелчка: " + str(self.param1.value()) + "%")
