@@ -26,7 +26,7 @@
 СТРОК КОДА С УЧЕТОМ ПОЯСНЕНИЙ - 581/630.........ЧИСТЫХ СТРОК КОДА - 469/500
 
     ИСПОЛЬЗОВАННЫЕ_ПРИКОЛЬЧИКИ:
-    - PyQT5: uic, QtGui, QtWidgets, QApplication, QWidget, QMainWindow
+    - PyQT5: uic, QtGui, QtWidgets, QApplication, QWidget, QMainWindow, QFileDialog
     - PIL: Image, ImageEnhance, ImageFilter, ImageDraw
     - numpy
     - os
