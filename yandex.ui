@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1280</width>
-    <height>720</height>
+    <height>800</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1280</width>
-    <height>720</height>
+    <height>800</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -139,7 +139,7 @@
     <property name="geometry">
      <rect>
       <x>1090</x>
-      <y>600</y>
+      <y>680</y>
       <width>72</width>
       <height>64</height>
      </rect>
@@ -233,21 +233,6 @@
     </property>
     <property name="checkable">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="boxopen">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>10</y>
-      <width>281</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
     </property>
    </widget>
    <widget class="QPushButton" name="reskost">
@@ -354,7 +339,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>560</y>
+      <y>640</y>
       <width>201</width>
       <height>31</height>
      </rect>
@@ -376,7 +361,7 @@
     <property name="geometry">
      <rect>
       <x>1170</x>
-      <y>600</y>
+      <y>680</y>
       <width>72</width>
       <height>64</height>
      </rect>
@@ -472,9 +457,9 @@
    <widget class="QLabel" name="filenamelabel">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>190</x>
       <y>10</y>
-      <width>291</width>
+      <width>581</width>
       <height>31</height>
      </rect>
     </property>
@@ -505,6 +490,31 @@
     </property>
     <property name="text">
      <string>Д: - ; Ш: - ;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="negative_2">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>550</y>
+      <width>201</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Narrow</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(./NEGATIVE.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
