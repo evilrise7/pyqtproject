@@ -492,7 +492,7 @@
      <string>Д: - ; Ш: - ;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="negative_2">
+   <widget class="QPushButton" name="noise">
     <property name="geometry">
      <rect>
       <x>1070</x>
@@ -508,13 +508,35 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image: url(./NEGATIVE.png);</string>
+     <string notr="true">border-image: url(./NOISE.png);</string>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="checkable">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infolabel">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>690</y>
+      <width>891</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Pixeled</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>#Выбирайте фильтры с интервалом в 1-2 секунды...</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>

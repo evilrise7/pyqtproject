@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
 import numpy
 import os
+import random
 
 
 class MyWidget(QMainWindow):
@@ -29,6 +30,7 @@ class MyWidget(QMainWindow):
         self.savelabel.setStyleSheet("color: white;")
         self.filenamelabel.setStyleSheet("color: white;")
         self.filesizelabel.setStyleSheet("color: white;")
+        self.infolabel.setStyleSheet("color: white;")
 
         self.param1label.setEnabled(True)
         self.param2label.setEnabled(True)
@@ -61,6 +63,7 @@ class MyWidget(QMainWindow):
         self.blackwhite.clicked.connect(self.blackwhitefunc)
         self.sepia.clicked.connect(self.sepiafunc)
         self.negative.clicked.connect(self.negativize)
+        self.noise.clicked.connect(self.noisefunc)
 
         # Чтобы кнопки могли быть зажаты
         self.bright.setCheckable(True)
@@ -72,6 +75,7 @@ class MyWidget(QMainWindow):
         self.blackwhite.setCheckable(True)
         self.sepia.setCheckable(True)
         self.negative.setCheckable(True)
+        self.noise.setCheckable(True)
 
         self.path = ""
 
@@ -414,8 +418,62 @@ class MyWidget(QMainWindow):
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
-    def resetbuttons(self):
-        # Сброс кнопок
+    def noisefunc(self):
+        # Выключаем доступ ко всем кнопкам кроме данной
+        self.everything23()
+        self.resetbuttons()
+
+        self.param1label.setText("Степень щелчка: 0%")
+        self.param1.setEnabled(True)
+        self.noise.setVisible(True)
+
+        # когда ползунок дергается, то происходит вызов функции размытия
+        self.param1.valueChanged.connect(self.donoise)
+        self.param1.setSliderPosition(0)  # базовое значение размытия
+        self.everything23()
+
+    def donoise(self):
+        self.everything23()
+        self.resetbuttons1()
+        self.noise.setVisible(True)
+
+        self.param1label.setText(
+            "Степень щелчка: " + str(self.param1.value()) + "%")
+
+        source = Image.open(self.path)
+        draw = ImageDraw.Draw(source)
+        width = source.size[0]  # ширина.
+        height = source.size[1]  # высота
+        pix = source.load()  # загрузка пикселей
+
+        stepen = int(self.param1.value())
+        for i in range(width):
+            for j in range(height):
+                rand = random.randint(-stepen, stepen)
+                red = pix[i, j][0] + rand
+                green = pix[i, j][1] + rand
+                blue = pix[i, j][2] + rand
+                if red < 0:
+                    red = 0
+                if green < 0:
+                    green = 0
+                if blue < 0:
+                    blue = 0
+                if red > 255:
+                    red = 255
+                if green > 255:
+                    green = 255
+                if blue > 255:
+                    blue = 255
+                draw.point((i, j), (red, green, blue))
+
+        source.save("working_sheet.png")
+        del draw
+        self.flag = True
+        self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        self.everything23()
+
+    def resetbuttons(self):  # Сброс кнопок
         self.allbuttonsFalse()
         self.everything123()
 
@@ -428,6 +486,7 @@ class MyWidget(QMainWindow):
         self.blackwhite.setVisible(False)
         self.sepia.setVisible(False)
         self.negative.setVisible(False)
+        self.noise.setVisible(False)
 
         self.savebut.setEnabled(True)
         self.resetbut.setEnabled(True)
@@ -477,6 +536,7 @@ class MyWidget(QMainWindow):
         self.blackwhite.setEnabled(False)
         self.sepia.setEnabled(False)
         self.negative.setEnabled(False)
+        self.noise.setEnabled(False)
 
     def allbuttonTrue(self):
         self.bright.setEnabled(True)
@@ -488,6 +548,7 @@ class MyWidget(QMainWindow):
         self.blackwhite.setEnabled(True)
         self.sepia.setEnabled(True)
         self.negative.setEnabled(True)
+        self.noise.setEnabled(True)
 
         self.bright.setVisible(True)
         self.contrast.setVisible(True)
@@ -498,6 +559,7 @@ class MyWidget(QMainWindow):
         self.blackwhite.setVisible(True)
         self.sepia.setVisible(True)
         self.negative.setVisible(True)
+        self.noise.setVisible(True)
 
     def everything123(self):
         # сброс всех ползунков
