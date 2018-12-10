@@ -122,16 +122,13 @@ class MyWidget(QMainWindow):
             source = Image.open("working_sheet.png")  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            source.save(self.path)  # спаси-сохрани!
-            os.remove("working_sheet.png")
+            source.save("working_sheet.png")  # спаси-сохрани!
         else:
             source = Image.open(self.path)  # открываю
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
-            source.save(self.path)  # спаси-сохрани!
-
+            source.save("working_sheet.png")  # спаси-сохрани!
         self.resetimage()
-
     def brightness(self):
         self.everything23()
         # функция для изменения яркости изображения
