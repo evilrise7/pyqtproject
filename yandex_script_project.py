@@ -147,6 +147,7 @@ class MyWidget(QMainWindow):
         # происходит вызов функции для изменения яркости
         self.param1.valueChanged.connect(self.brightnessediting)
         self.param1.setSliderPosition(50)  # базовое значение яркости
+        self.everything23()
 
     def brightnessediting(self):
         self.param1label.setText("Яркость: " + str(self.param1.value()) + "%")
@@ -159,22 +160,23 @@ class MyWidget(QMainWindow):
         source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        self.everything23()
 
     def contrasting(self):
         # функция для изменения контраста изображения
         self.everything23()
-
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
         self.contrast.setVisible(True)
 
         self.param1label.setText("Контрастность: 50%")
-        print(self.param1label.text())
         self.param1.setEnabled(True)
 
         # когда ползунок дергается, происходит вызов функции контраста
         self.param1.valueChanged.connect(self.contrastingediting)
         self.param1.setSliderPosition(50)  # базовое значение контраста
+
+        self.everything23()
 
     def contrastingediting(self):
         self.param1label.setText("Контрастность: " + str(
@@ -188,6 +190,7 @@ class MyWidget(QMainWindow):
         source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        self.everything23()
 
     def sharpe(self):
         self.everything23()
@@ -201,6 +204,7 @@ class MyWidget(QMainWindow):
         # когда ползунок дергается, то происходит вызов функции яркости
         self.param1.valueChanged.connect(self.sharpemaking)
         self.param1.setSliderPosition(50)  # базовое значение яркости
+        self.everything23()
 
     def sharpemaking(self):
         self.param1label.setText("Резкость: " + str(self.param1.value()) + "%")
@@ -212,6 +216,7 @@ class MyWidget(QMainWindow):
         source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        self.everything23()
 
     def colorbalancing(self):
         self.everything23()
@@ -225,6 +230,7 @@ class MyWidget(QMainWindow):
         # когда ползунок дергается, то происходит вызов функции яркости
         self.param1.valueChanged.connect(self.docolorbalance)
         self.param1.setSliderPosition(50)  # базовое значение яркости
+        self.everything23()
 
     def docolorbalance(self):
         self.param1label.setText(
@@ -238,6 +244,7 @@ class MyWidget(QMainWindow):
         source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        self.everything23()
 
     def gaussbluring(self):
         self.everything23()
@@ -251,6 +258,7 @@ class MyWidget(QMainWindow):
         # когда ползунок дергается, то происходит вызов функции размытия
         self.param1.valueChanged.connect(self.dogaussblur)
         self.param1.setSliderPosition(0)  # базовое значение размытия
+        self.everything23()
 
     def dogaussblur(self):
         self.param1label.setText(
@@ -263,13 +271,14 @@ class MyWidget(QMainWindow):
         source.save("working_sheet.png")  # спаси-сохрани!
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
+        self.everything23()
 
     def posterize(self):
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
         self.poster.setVisible(True)
 
-        self.param1label.setText("Red: -%")
+        self.param1label.setText("Red: 64%")
         self.param1.setEnabled(True)
 
         self.param2label.setText("Green: -%")
@@ -280,21 +289,20 @@ class MyWidget(QMainWindow):
 
         # когда ползунок дергается, то происходит вызов функции каналов
         self.param1.valueChanged.connect(self.doposterizered)
-        self.param2.valueChanged.connect(self.doposterizegreen)
-        self.param3.valueChanged.connect(self.doposterizeblue)
-
         self.param1.setSliderPosition(64)  # базовое значение red
-        self.param2.setSliderPosition(64)  # базовое значение red
-        self.param3.setSliderPosition(64)  # базовое значение red
+
+        self.param2.valueChanged.connect(self.doposterizegreen)
+        self.param2.setSliderPosition(64)  # базовое значение green
+
+        self.param3.valueChanged.connect(self.doposterizeblue)
+        self.param3.setSliderPosition(64)  # базовое значение blue
 
     def doposterizered(self):
         red = float(self.param1.value()) * 255 / 1000
 
         self.param1label.setText("Red: " + str(self.param1.value()) + "%")
         self.param2label.setText("Green: -%")
-        self.param2.setSliderPosition(64)  # базовое значение green
         self.param3label.setText("Blue: -%")
-        self.param3.setSliderPosition(64)  # базовое значение blue
 
         source = Image.open(self.path)
         source = numpy.array(source)
@@ -308,10 +316,8 @@ class MyWidget(QMainWindow):
         green = float(self.param2.value()) * 255 / 1000
 
         self.param1label.setText("Red: -%")
-        self.param1.setSliderPosition(64)  # базовое значение red
         self.param2label.setText("Green: " + str(self.param2.value()) + "%")
         self.param3label.setText("Blue: -%")
-        self.param3.setSliderPosition(64)  # базовое значение blue
 
         source2 = Image.open(self.path)
         source2 = numpy.array(source2)
@@ -325,9 +331,7 @@ class MyWidget(QMainWindow):
         blue = float(self.param3.value()) * 255 / 1000
 
         self.param1label.setText("Red: -%")
-        self.param1.setSliderPosition(64)  # базовое значение red
         self.param2label.setText("Green: -%")
-        self.param2.setSliderPosition(64)  # базовое значение green
         self.param3label.setText("Blue: " + str(self.param3.value()) + "%")
 
         source3 = Image.open(self.path)
@@ -505,49 +509,48 @@ class MyWidget(QMainWindow):
 
     def everything123(self):
         # сброс всех ползунков
-        self.param2label.setText("-")
-        self.param2.setEnabled(False)
-
-        self.param3label.setText("-")
-        self.param3.setEnabled(False)
-
-        self.param1label.setText("-")
-        self.param1.setEnabled(False)
-
         self.param2.setSliderPosition(0)
         self.param3.setSliderPosition(0)
         self.param1.setSliderPosition(0)
+        self.param3.setEnabled(False)
+        self.param2.setEnabled(False)
+        self.param1.setEnabled(False)
+        self.param2label.setText("-")
+        self.param3label.setText("-")
+        self.param1label.setText("-")
 
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
-
-        self.param2label.setText("-")
         self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
 
-        self.param3label.setText("-")
         self.param3.setSliderPosition(0)
         self.param3.setEnabled(False)
+
+        self.param2label.setText("-")
+        self.param3label.setText("-")
 
     def everything13(self):
         # функция для отключения 1-го и 3-го ползунков
-        self.param1label.setText("-")
         self.param1.setSliderPosition(0)
         self.param1.setEnabled(False)
 
-        self.param3label.setText("-")
         self.param3.setSliderPosition(0)
         self.param3.setEnabled(False)
 
+        self.param1label.setText("-")
+        self.param3label.setText("-")
+
     def everything21(self):
         # функция для отключения 2-го и 1-го ползунков
-        self.param2label.setText("-")
         self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
 
-        self.param1label.setText("-")
         self.param1.setSliderPosition(0)
         self.param1.setEnabled(False)
+
+        self.param2label.setText("-")
+        self.param1label.setText("-")
 
     def everything(self):
         # функция для полного сброса настроек
