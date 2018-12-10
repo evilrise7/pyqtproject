@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import uic, QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
 import numpy
 import os
@@ -35,6 +35,7 @@ class MyWidget(QMainWindow):
         self.param1label.setEnabled(True)
         self.param2label.setEnabled(True)
         self.param3label.setEnabled(True)
+        self.boxopen.setVisible(False)
 
         # Настройки окон открытия и сохранения
         self.openbut.clicked.connect(self.openimage)
@@ -81,7 +82,8 @@ class MyWidget(QMainWindow):
         # функция для того, чтобы открыть изображение
         # Показ изображения на экране пользователя
         try:
-            self.path = str(self.boxopen.text())
+            fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
+            self.path = fname
             if self.path == "":
                 # отключение кнопок
                 self.everything()
@@ -100,8 +102,6 @@ class MyWidget(QMainWindow):
 
                 self.saveresetlabelVisibleTrue()
 
-                self.openbut.setEnabled(False)
-                self.boxopen.setEnabled(False)
                 self.filenamelabel.setText(self.path)
 
                 source = Image.open(self.path)
@@ -580,3 +580,4 @@ app = QApplication(sys.argv)
 ex = MyWidget()
 ex.show()
 sys.exit(app.exec_())
+# не забыть удалить текстбокс
