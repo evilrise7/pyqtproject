@@ -90,15 +90,7 @@ class MyWidget(QMainWindow):
                 raise FileNotFoundError
             else:
                 # включение кнопок
-                self.bright.setEnabled(True)
-                self.contrast.setEnabled(True)
-                self.reskost.setEnabled(True)
-                self.colorbalance.setEnabled(True)
-                self.gaussblur.setEnabled(True)
-                self.poster.setEnabled(True)
-                self.blackwhite.setEnabled(True)
-                self.sepia.setEnabled(True)
-                self.negative.setEnabled(True)
+                self.allbuttonTrue()
 
                 self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
@@ -106,9 +98,7 @@ class MyWidget(QMainWindow):
                 self.savebut.setEnabled(True)
                 self.resetbut.setEnabled(True)
 
-                self.savebut.setVisible(True)
-                self.resetbut.setVisible(True)
-                self.savelabel.setVisible(True)
+                self.saveresetlabelVisibleTrue()
 
                 self.openbut.setEnabled(False)
                 self.boxopen.setEnabled(False)
@@ -118,6 +108,7 @@ class MyWidget(QMainWindow):
                 width = source.size[0]
                 height = source.size[1]
                 self.filesizelabel.setText("Д: {} ; Ш: {} ;".format(width, height))
+
         except FileNotFoundError:
             self.kartinka.setText("Изображение не найдено!")
             self.filenamelabel.setText("имя.png")
@@ -402,7 +393,7 @@ class MyWidget(QMainWindow):
     def negativize(self):
         self.everything123()
         self.resetbuttons()
-        self.sepia.setVisible(True)
+        self.negative.setVisible(True)
 
         source = Image.open(self.path)
         draw = ImageDraw.Draw(source)
@@ -422,7 +413,96 @@ class MyWidget(QMainWindow):
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
+    def resetbuttons(self):
+        # Сброс кнопок
+        self.allbuttonsFalse()
+        self.everything123()
+
+        self.bright.setVisible(False)
+        self.contrast.setVisible(False)
+        self.poster.setVisible(False)
+        self.gaussblur.setVisible(False)
+        self.colorbalance.setVisible(False)
+        self.reskost.setVisible(False)
+        self.blackwhite.setVisible(False)
+        self.sepia.setVisible(False)
+        self.negative.setVisible(False)
+
+        self.savebut.setEnabled(True)
+        self.resetbut.setEnabled(True)
+
+        self.saveresetlabelVisibleTrue()
+        self.savebut.setStyleSheet("border-image: url(./YES.png);")
+        self.resetbut.setStyleSheet("border-image: url(./NO.png);")
+
+    def resetimage(self):
+        # Делаю кнопки рабочими и обнуляю ползунки
+        self.allbuttonTrue()
+        self.everything123()
+
+        self.savebut.setEnabled(False)
+        self.resetbut.setEnabled(False)
+
+        self.saveresetbuttonOff()
+
+        self.savelabel.setVisible(True)
+
+        self.openbut.setEnabled(True)
+        self.boxopen.setEnabled(True)
+
+        self.flag = False
+
+        self.boxopen.setText("")
+
+        self.kartinka.setPixmap(QtGui.QPixmap(self.path))
+
+    def saveresetlabelVisibleTrue(self):
+        self.savebut.setVisible(True)
+        self.resetbut.setVisible(True)
+        self.savelabel.setVisible(True)
+
+    def saveresetbuttonOff(self):
+        self.savebut.setStyleSheet("border-image: url(./YES_OFF.png);")
+        self.resetbut.setStyleSheet("border-image: url(./NO_OFF.png);")
+
+    def butresetsaveFalse(self):
+        self.savebut.setEnabled(False)
+        self.resetbut.setEnabled(False)
+
+    def allbuttonsFalse(self):
+        self.reskost.setEnabled(False)
+        self.bright.setEnabled(False)
+        self.contrast.setEnabled(False)
+        self.colorbalance.setEnabled(False)
+        self.gaussblur.setEnabled(False)
+        self.poster.setEnabled(False)
+        self.blackwhite.setEnabled(False)
+        self.sepia.setEnabled(False)
+        self.negative.setEnabled(False)
+
+    def allbuttonTrue(self):
+        self.bright.setEnabled(True)
+        self.contrast.setEnabled(True)
+        self.poster.setEnabled(True)
+        self.gaussblur.setEnabled(True)
+        self.colorbalance.setEnabled(True)
+        self.reskost.setEnabled(True)
+        self.blackwhite.setEnabled(True)
+        self.sepia.setEnabled(True)
+        self.negative.setEnabled(True)
+
+        self.bright.setVisible(True)
+        self.contrast.setVisible(True)
+        self.poster.setVisible(True)
+        self.gaussblur.setVisible(True)
+        self.colorbalance.setVisible(True)
+        self.reskost.setVisible(True)
+        self.blackwhite.setVisible(True)
+        self.sepia.setVisible(True)
+        self.negative.setVisible(True)
+
     def everything123(self):
+        # сброс всех ползунков
         self.param2label.setText("-")
         self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
@@ -437,6 +517,7 @@ class MyWidget(QMainWindow):
 
     def everything23(self):
         # функция для отключения 2-го и 3-го ползунков
+
         self.param2label.setText("-")
         self.param2.setSliderPosition(0)
         self.param2.setEnabled(False)
@@ -467,39 +548,21 @@ class MyWidget(QMainWindow):
 
     def everything(self):
         # функция для полного сброса настроек
-        # Обнуляю ползунки
-        self.param2.setSliderPosition(0)
-        self.param2.setEnabled(False)
+        self.everything123()
 
-        self.param3.setSliderPosition(0)
-        self.param3.setEnabled(False)
-
-        self.param1.setSliderPosition(0)
-        self.param1.setEnabled(False)
-
-        self.savebut.setEnabled(False)
-        self.resetbut.setEnabled(False)
+        self.butresetsaveFalse()
 
         self.savebut.setVisible(False)
         self.resetbut.setVisible(False)
 
-        self.savebut.setStyleSheet("border-image: url(./YES_OFF.png);")
-        self.resetbut.setStyleSheet("border-image: url(./NO_OFF.png);")
+        self.saveresetbuttonOff()
 
         self.savelabel.setVisible(False)
 
         self.openbut.setEnabled(True)
         self.boxopen.setEnabled(True)
 
-        self.reskost.setEnabled(False)
-        self.bright.setEnabled(False)
-        self.contrast.setEnabled(False)
-        self.colorbalance.setEnabled(False)
-        self.gaussblur.setEnabled(False)
-        self.poster.setEnabled(False)
-        self.blackwhite.setEnabled(False)
-        self.sepia.setEnabled(False)
-        self.negative.setEnabled(False)
+        self.allbuttonsFalse()
 
         self.path = ""
 
@@ -510,94 +573,6 @@ class MyWidget(QMainWindow):
         self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
         self.flag = False
-
-        self.param1label.setText("-")
-        self.param2label.setText("-")
-        self.param3label.setText("-")
-
-    def resetbuttons(self):
-        self.bright.setEnabled(False)
-        self.contrast.setEnabled(False)
-        self.poster.setEnabled(False)
-        self.gaussblur.setEnabled(False)
-        self.colorbalance.setEnabled(False)
-        self.reskost.setEnabled(False)
-        self.blackwhite.setEnabled(False)
-        self.sepia.setEnabled(False)
-        self.negative.setEnabled(True)
-
-        self.bright.setVisible(False)
-        self.contrast.setVisible(False)
-        self.poster.setVisible(False)
-        self.gaussblur.setVisible(False)
-        self.colorbalance.setVisible(False)
-        self.reskost.setVisible(False)
-        self.blackwhite.setVisible(False)
-        self.sepia.setVisible(False)
-        self.negative.setVisible(False)
-
-        self.savebut.setEnabled(True)
-        self.resetbut.setEnabled(True)
-
-        self.savebut.setVisible(True)
-        self.resetbut.setVisible(True)
-
-        self.savebut.setStyleSheet("border-image: url(./YES.png);")
-        self.resetbut.setStyleSheet("border-image: url(./NO.png);")
-
-    def resetimage(self):
-        # Делаю кнопки рабочими
-        self.bright.setEnabled(True)
-        self.contrast.setEnabled(True)
-        self.poster.setEnabled(True)
-        self.gaussblur.setEnabled(True)
-        self.colorbalance.setEnabled(True)
-        self.reskost.setEnabled(True)
-        self.blackwhite.setEnabled(True)
-        self.sepia.setEnabled(True)
-        self.negative.setEnabled(True)
-
-        # Делаю кнопки видимыми
-        self.bright.setVisible(True)
-        self.contrast.setVisible(True)
-        self.poster.setVisible(True)
-        self.gaussblur.setVisible(True)
-        self.colorbalance.setVisible(True)
-        self.reskost.setVisible(True)
-        self.blackwhite.setVisible(True)
-        self.sepia.setVisible(True)
-        self.negative.setVisible(True)
-
-        # Обнуляю ползунки
-        self.param2.setSliderPosition(0)
-        self.param2.setEnabled(False)
-
-        self.param3.setSliderPosition(0)
-        self.param3.setEnabled(False)
-
-        self.param1.setSliderPosition(0)
-        self.param1.setEnabled(False)
-
-        self.savebut.setEnabled(False)
-        self.resetbut.setEnabled(False)
-
-        self.savebut.setStyleSheet("border-image: url(./YES_OFF.png);")
-        self.resetbut.setStyleSheet("border-image: url(./NO_OFF.png);")
-
-        self.savelabel.setVisible(True)
-
-        self.openbut.setEnabled(True)
-        self.boxopen.setEnabled(True)
-
-        self.flag = False
-
-        self.param1label.setText("-")
-        self.param2label.setText("-")
-        self.param3label.setText("-")
-
-        self.boxopen.setText("")
-
-        self.kartinka.setPixmap(QtGui.QPixmap(self.path))
 
 
 app = QApplication(sys.argv)
