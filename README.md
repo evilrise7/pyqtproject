@@ -28,4 +28,5 @@
     - numpy
     - os
     - sys
+    - random
 Шрифт: https://www.dafont.com/pixeled.font
