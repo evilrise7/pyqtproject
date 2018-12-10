@@ -574,4 +574,3 @@ app = QApplication(sys.argv)
 ex = MyWidget()
 ex.show()
 sys.exit(app.exec_())
-# не забыть удалить текстбокс
