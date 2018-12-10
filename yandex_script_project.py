@@ -107,7 +107,8 @@ class MyWidget(QMainWindow):
                 source = Image.open(self.path)
                 width = source.size[0]
                 height = source.size[1]
-                self.filesizelabel.setText("Д: {} ; Ш: {} ;".format(width, height))
+                self.filesizelabel.setText("Д: {} ; Ш: {} ;".format(
+                    width, height))
 
         except FileNotFoundError:
             self.kartinka.setText("Изображение не найдено!")
