@@ -31,3 +31,4 @@
     - random
     - pygame
 Шрифт: https://www.dafont.com/pixeled.font
+Видео: https://www.youtube.com/watch?v=AwHgz2VtRR4
