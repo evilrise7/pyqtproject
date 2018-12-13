@@ -29,4 +29,5 @@
     - os
     - sys
     - random
+    - pygame
 Шрифт: https://www.dafont.com/pixeled.font
