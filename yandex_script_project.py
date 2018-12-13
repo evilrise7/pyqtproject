@@ -17,6 +17,7 @@ class MyWidget(QMainWindow):
         self.initUi()
         pygame.init()
         pygame.mixer.init()
+        self.oof = pygame.mixer.Sound("oof.wav")
 
     def initUi(self):
         self.setWindowTitle('Фитон')
@@ -86,6 +87,7 @@ class MyWidget(QMainWindow):
         # функция для того, чтобы открыть изображение
         # Показ изображения на экране пользователя
         try:
+            self.oof.play()
             fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
             self.path = fname
             if self.path == "":
@@ -121,6 +123,7 @@ class MyWidget(QMainWindow):
 
     def saveimage(self):
         # функция для сохранения изображения
+        self.oof.play()
         if self.flag:
             source = Image.open("working_sheet.png")  # открываю
             source = numpy.array(source)  # для подстраховки
@@ -137,6 +140,7 @@ class MyWidget(QMainWindow):
         self.everything123()
 
     def brightness(self):
+        self.oof.play()
         self.everything23()
         # функция для изменения яркости изображения
 
@@ -168,6 +172,7 @@ class MyWidget(QMainWindow):
         self.everything23()
 
     def contrasting(self):
+        self.oof.play()
         # функция для изменения контраста изображения
         self.everything23()
         # Выключаем доступ ко всем кнопкам кроме данной
@@ -199,6 +204,7 @@ class MyWidget(QMainWindow):
         self.everything23()
 
     def sharpe(self):
+        self.oof.play()
         self.everything23()
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
@@ -226,6 +232,7 @@ class MyWidget(QMainWindow):
         self.everything23()
 
     def colorbalancing(self):
+        self.oof.play()
         self.everything23()
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
@@ -255,6 +262,7 @@ class MyWidget(QMainWindow):
         self.everything23()
 
     def gaussbluring(self):
+        self.oof.play()
         self.everything23()
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
@@ -283,6 +291,7 @@ class MyWidget(QMainWindow):
         self.everything23()
 
     def posterize(self):
+        self.oof.play()
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
         self.poster.setVisible(True)
@@ -359,6 +368,7 @@ class MyWidget(QMainWindow):
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def blackwhitefunc(self):
+        self.oof.play()
         self.everything123()
         # Выключаем доступ ко всем кнопкам кроме данной
         self.resetbuttons()
@@ -375,6 +385,7 @@ class MyWidget(QMainWindow):
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def sepiafunc(self):
+        self.oof.play()
         self.everything123()
         self.resetbuttons()
         self.sepia.setVisible(True)
@@ -420,6 +431,7 @@ class MyWidget(QMainWindow):
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def negativize(self):
+        self.oof.play()
         self.everything123()
         self.resetbuttons()
         self.negative.setVisible(True)
