@@ -2,6 +2,7 @@ import sys
 from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
+import pygame
 import numpy
 import os
 import random
@@ -14,6 +15,8 @@ class MyWidget(QMainWindow):
         uic.loadUi('yandex.ui', self)
         app.setStyleSheet('QMainWindow{background-color: #161616;}')
         self.initUi()
+        pygame.init()
+        pygame.mixer.init()
 
     def initUi(self):
         self.setWindowTitle('Фитон')
@@ -128,6 +131,7 @@ class MyWidget(QMainWindow):
             source = numpy.array(source)  # для подстраховки
             source = Image.fromarray(source)  # для подстраховки
             source.save(self.path)  # спаси-сохрани!
+        del source  # для быстродействия
         self.resetimage()
         self.allbuttonTrue()
         self.everything123()
@@ -158,6 +162,7 @@ class MyWidget(QMainWindow):
         source = enhancer.enhance(float(float(self.param1.value()) / 50))
         # значение контраста
         source.save("working_sheet.png")  # спаси-сохрани!
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
         self.everything23()
@@ -188,6 +193,7 @@ class MyWidget(QMainWindow):
         source = enhancer.enhance(
             float(float(self.param1.value()) / 50))  # значение контраста
         source.save("working_sheet.png")  # спаси-сохрани!
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
         self.everything23()
@@ -214,6 +220,7 @@ class MyWidget(QMainWindow):
         enhancer = ImageEnhance.Sharpness(source)  # модуль изменения резкости
         source = enhancer.enhance(float(float(self.param1.value()) / 25))
         source.save("working_sheet.png")  # спаси-сохрани!
+        del source # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
         self.everything23()
@@ -242,6 +249,7 @@ class MyWidget(QMainWindow):
         source = enhancer.enhance(
             float(float(self.param1.value()) / 30))  # значение баланса
         source.save("working_sheet.png")  # спаси-сохрани!
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
         self.everything23()
@@ -269,6 +277,7 @@ class MyWidget(QMainWindow):
         source = source.filter(
             ImageFilter.GaussianBlur(float(float(self.param1.value()) / 25)))
         source.save("working_sheet.png")  # спаси-сохрани!
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
         self.everything23()
@@ -298,6 +307,7 @@ class MyWidget(QMainWindow):
         self.param3.setSliderPosition(64)  # базовое значение blue
 
     def doposterizered(self):
+        # красный канал
         red = float(self.param1.value()) * 255 / 1000
 
         self.param1label.setText("Red: " + str(self.param1.value()) + "%")
@@ -309,10 +319,12 @@ class MyWidget(QMainWindow):
         source[:, :, 0] = red
         source = Image.fromarray(source)
         source.save("working_sheet.png")
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def doposterizegreen(self):
+        # зеленый канал
         green = float(self.param2.value()) * 255 / 1000
 
         self.param1label.setText("Red: -%")
@@ -324,10 +336,12 @@ class MyWidget(QMainWindow):
         source2[:, :, 1] = green
         source2 = Image.fromarray(source2)
         source2.save("working_sheet.png")
+        del source2  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
     def doposterizeblue(self):
+        # синий канал
         blue = float(self.param3.value()) * 255 / 1000
 
         self.param1label.setText("Red: -%")
@@ -339,6 +353,7 @@ class MyWidget(QMainWindow):
         source3[:, :, 2] = blue
         source3 = Image.fromarray(source3)
         source3.save("working_sheet.png")
+        del source3  # для быстродействия
 
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
@@ -352,9 +367,10 @@ class MyWidget(QMainWindow):
         source = Image.open(self.path)  # открываю
         source = numpy.array(source)  # для подстраховки
         source = Image.fromarray(source)  # для подстраховки
-        enhancer = ImageEnhance.Color(source)  # модуль изменения баланса
-        source = enhancer.enhance(0.0)  # значение баланса
+        enhancer = ImageEnhance.Color(source)  # модуль изменения цветобаланса
+        source = enhancer.enhance(0.0)  # значение чернобелизны!
         source.save("working_sheet.png")  # спаси-сохрани!
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
@@ -381,6 +397,12 @@ class MyWidget(QMainWindow):
                 green = avg + 10  # если: 100 - суперярко; 0 - пещера
                 blue = avg
 
+                # это необходимо делать, т.к.
+                # сепия добивается благодаря соотношению
+                # 30% 80% 42% (преимущественны здесь,
+                # зеленый и красный, т.к. при их смешивании
+                # получают коричневый или искомый цвет.
+
                 # приводим к адекватным показателям(0 - 255)
                 if red > 255:
                     red = 255
@@ -393,6 +415,7 @@ class MyWidget(QMainWindow):
 
         source.save("working_sheet.png")
         del draw
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
@@ -409,6 +432,8 @@ class MyWidget(QMainWindow):
 
         for i in range(width):
             for j in range(height):
+                # задаем значения к каждому каналу соответсвующими
+                # пикселями. Отнимаем 255, для негатива.
                 red = pix[i, j][0]
                 green = pix[i, j][1]
                 blue = pix[i, j][2]
@@ -416,6 +441,7 @@ class MyWidget(QMainWindow):
 
         source.save("working_sheet.png")
         del draw
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
 
@@ -427,6 +453,8 @@ class MyWidget(QMainWindow):
 
         self.param1label.setText("Степень щелчка: 0%")
         self.param1.setEnabled(True)
+        purple = pygame.mixer.Sound("snap.wav")
+        purple.play()
 
         # когда ползунок дергается, то происходит вызов функции размытия
         self.param1.valueChanged.connect(self.donoise)
@@ -452,6 +480,8 @@ class MyWidget(QMainWindow):
         stepen = int(self.param1.value())
         for i in range(width):
             for j in range(height):
+                # Здесь степень шума является значением затемнения
+                # или засветления каждого пикселя изображения
                 rand = random.randint(-stepen, stepen)
                 red = pix[i, j][0] + rand
                 green = pix[i, j][1] + rand
@@ -471,7 +501,8 @@ class MyWidget(QMainWindow):
                 draw.point((i, j), (red, green, blue))
 
         source.save("working_sheet.png")
-        del draw
+        del draw  # удаляем переменную, ибо будут лаги.
+        del source  # для быстродействия
         self.flag = True
         self.kartinka.setPixmap(QtGui.QPixmap("working_sheet.png"))
         self.everything23()
